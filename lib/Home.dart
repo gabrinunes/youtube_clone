@@ -10,7 +10,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("youtube"),
+        iconTheme: IconThemeData(
+          color: Colors.grey,
+          opacity: 1,
+        ),
+        backgroundColor: Colors.white,
+        title: Image.asset(
+          "images/youtube.png",
+          width: 98,
+          height: 22,
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.videocam),
