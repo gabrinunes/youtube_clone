@@ -8,9 +8,9 @@ part 'Videos.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Videos {
   Video_id id;
-  Video_detail detail;
+  Video_detail snippet;
 
-  Videos(this.id, this.detail);
+  Videos(this.id, this.snippet);
 
   factory Videos.fromJson(Map<String, dynamic> json) => _$VideosFromJson(json);
 

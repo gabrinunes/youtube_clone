@@ -11,13 +11,13 @@ Videos _$VideosFromJson(Map<String, dynamic> json) {
     json['id'] == null
         ? null
         : Video_id.fromJson(json['id'] as Map<String, dynamic>),
-    json['detail'] == null
+    json['snippet'] == null
         ? null
-        : Video_detail.fromJson(json['detail'] as Map<String, dynamic>),
+        : Video_detail.fromJson(json['snippet'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$VideosToJson(Videos instance) => <String, dynamic>{
       'id': instance.id?.toJson(),
-      'detail': instance.detail?.toJson(),
+      'snippet': instance.snippet?.toJson(),
     };
