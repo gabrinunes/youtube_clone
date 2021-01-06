@@ -23,7 +23,7 @@ class Api {
       var dadosJson = jsonDecode(response.body);
       List videos = dadosJson["items"];
       var listVideos = videos.map((data) => Videos.fromJson(data)).toList();
-      //print(listVideos[2].snippet.title);
+      return listVideos;
     } else {
       print(response.statusCode);
     }
