@@ -8,18 +8,37 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
-  _getData() async {
+  Future<List<Videos>> _getData() async {
     Api api = Api();
-    List<Videos> lista = await api.pesquisar("");
+    var lista = await api.pesquisar("");
+    return lista;
   }
 
   @override
   Widget build(BuildContext context) {
     _getData();
     return Container(
-      child: Center(
-        child: Text("Inicio"),
-      ),
-    );
+        child: FutureBuilder<List<Videos>>(
+      future: _getData(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+            break;
+          default:
+        }
+        List<Videos> listVideo = snapshot.data;
+        return ListView.builder(
+          itemCount: listVideo.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(listVideo[index].id.videoId),
+            );
+          },
+        );
+      },
+    ));
   }
 }
