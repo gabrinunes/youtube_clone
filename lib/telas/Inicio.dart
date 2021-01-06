@@ -17,28 +17,53 @@ class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
     _getData();
-    return Container(
-        child: FutureBuilder<List<Videos>>(
+    return FutureBuilder<List<Videos>>(
       future: _getData(),
       builder: (context, snapshot) {
+        List<Videos> listVideo = snapshot.data;
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return Center(
               child: CircularProgressIndicator(),
             );
             break;
+          case ConnectionState.done:
+            if (snapshot.hasData) {
+              return ListView.separated(
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                              listVideo[index].snippet.thumbnails.high.url),
+                        )),
+                      ),
+                      ListTile(
+                        title: Text(listVideo[index].snippet.title),
+                        subtitle: Text(listVideo[index].snippet.channelTitle),
+                      ),
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) => Divider(
+                  height: 2,
+                  color: Colors.grey,
+                ),
+                itemCount: listVideo.length,
+              );
+            } else {
+              return Center(
+                child: Text("Nenhum dado a ser exibido"),
+              );
+            }
+            break;
           default:
         }
-        List<Videos> listVideo = snapshot.data;
-        return ListView.builder(
-          itemCount: listVideo.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(listVideo[index].id.videoId),
-            );
-          },
-        );
       },
-    ));
+    );
   }
 }
