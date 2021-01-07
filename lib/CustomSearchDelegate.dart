@@ -6,7 +6,9 @@ class CustomSearchDelegate extends SearchDelegate<String> {
     return [
       IconButton(
         icon: Icon(Icons.clear),
-        onPressed: () {},
+        onPressed: () {
+          query = "";
+        },
       ),
     ];
   }
@@ -16,13 +18,14 @@ class CustomSearchDelegate extends SearchDelegate<String> {
     return IconButton(
       icon: Icon(Icons.arrow_back),
       onPressed: () {
-        close(context, null);
+        close(context, "");
       },
     );
   }
 
   @override
   Widget buildResults(BuildContext context) {
+    close(context, query);
     return Container();
   }
 

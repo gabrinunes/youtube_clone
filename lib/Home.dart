@@ -12,10 +12,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _indiceAtual = 0;
+  String resultado = "";
+
   @override
   Widget build(BuildContext context) {
     List<Widget> telas = [
-      Inicio(),
+      Inicio(resultado),
       EmAlta(),
       Iscricao(),
       Biblioteca(),
@@ -35,8 +37,12 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(context: context, delegate: CustomSearchDelegate());
+            onPressed: () async {
+              String res = await showSearch(
+                  context: context, delegate: CustomSearchDelegate());
+              setState(() {
+                resultado = res;
+              });
             },
           ),
         ],
