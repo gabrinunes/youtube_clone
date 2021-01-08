@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube/Api.dart';
 import 'package:youtube/models/Videos.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
@@ -12,15 +15,34 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
-  _listarVideos(String pesquisa) {
-    Api api = Api();
-    return api.pesquisar(pesquisa);
-  }
+  List<Videos> videosList = [];
 
   Future<List<Videos>> _getData() async {
     Api api = Api();
     var lista = await api.pesquisar(widget.pequisa);
+    final prefs = await SharedPreferences.getInstance();
+    Future<bool> videoList = prefs.setString("videos", jsonEncode(lista));
+    _getVideoList(videoList);
     return lista;
+  }
+
+  _getVideoList(listVideo) async {
+    final prefs = await SharedPreferences.getInstance();
+    List videos = jsonDecode(prefs.getString("videos"));
+    var listVideos = videos.map((data) => Videos.fromJson(data)).toList();
+    if (listVideos.isNotEmpty) {
+      setState(() {
+        videosList = listVideos;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (videosList.isNotEmpty) {
+      print("buscando videos:" + videosList[0].id.toString());
+    }
   }
 
   @override
